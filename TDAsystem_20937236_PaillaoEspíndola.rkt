@@ -2,13 +2,15 @@
 
 ; Se importan las funciones del TDA chatbot.
 (require "TDAchatbot_20937236_PaillaoEspindola.rkt")
+; Se importan las funciones del TDA user.
+(require "TDAuser_20937236_PaillaoEspindola.rkt")
 
 ; Representación: Este TDA representa un sistema de chatbots y se ordena en una lista que contiene
-; el nombre del sistema, el código inicial del chatbot y una lista de chatbots.
+; el nombre del sistema, el código inicial del chatbot, una lista de chatbots y una lista de usuarios.
 
 ; Constructor: Función para crear el sistema
 (define (system name InitialChatbotCodeLink . chatbots)
-  (append (list name InitialChatbotCodeLink) chatbots)
+  (append (list name InitialChatbotCodeLink '() ) chatbots)
 )
 
 ; Pertenencia: Determina si un elemento pertenece a un sistema, retorna #t si pertenece y #f si no.
@@ -16,7 +18,8 @@
   (and (list? sistema); Verifica que sea una lista
        (string? (car sistema)); Verifica que el nombre del sistema sea un string
        (number? (cadr sistema)); Verifica que el código inicial del sistema sea un número
-       (list? (cddr sistema)); Verifica que la lista de chatbots sea una lista
+       (list? (caddr sistema)); Verifica que la lista de usuarios sea una lista
+       (list? (cdddr sistema)); Verifica que la lista de chatbots sea una lista
   )
 )
 
@@ -29,22 +32,39 @@
 (define (get-systemInitialcode sistema)
   (cadr sistema)
 )
+; Selector de lista de usuarios del sistema.
+(define (get-systemUsers sistema)
+  (caddr sistema)
+)
 ; Selector de lista de chatbots del sistema.
 (define (get-systemChatbot sistema)
-  (cddr sistema)
+  (cdddr sistema)
 )
 
 ; Modificadores: 
 
   ; Añade un chatbot al sistema
 
-  ;Se crea la función para añadir un chatbot al sistema.
+  ; Se crea la función para añadir un chatbot al sistema.
   (define (system-add-chatbot sistema chatbot)
-    ; Comprueba si el ID del chatbot ya existe en la lista de IDs de chatbots en el sistema.
+   ; Comprueba si el ID del chatbot ya existe en la lista de IDs de chatbots en el sistema.
   (if (member (get-chatbotId chatbot) (map get-chatbotId (get-systemChatbot sistema))
       )
       sistema; Si el ID del chatbot ya existe en la lista, devuelve el sistema original sin cambios.
-      (append sistema (list chatbot); Si el ID del chatbot no existe, añade el chatbot al sistema y devuelve el sistema modificado.
-      )
+      (append sistema (list chatbot)); Si el ID del chatbot no existe, añade el chatbot al sistema y devuelve el sistema modificado.
   )
   )
+
+  ; Añade un usuario al sistema
+(define (system-add-user sistema username password)
+  ; Crea un nuevo usuario
+  (define new-user (user username password))
+  ; Comprueba si el usuario ya existe en la lista de usuarios en el sistema.
+  (if (member username (map get-userName (get-systemUsers sistema)))
+      sistema ; Si el usuario ya existe en la lista, devuelve el sistema original sin cambios.
+       ; Si el usuario no existe, añade el usuario al sistema y devuelve el sistema modificado.
+      (list (get-systemName sistema) (get-systemInitialcode sistema) (append (get-systemUsers sistema) (list new-user)) (get-systemChatbot sistema))
+  )
+)
+
+(provide system system? get-systemName get-systemInitialcode get-systemUsers get-systemChatbot system-add-chatbot system-add-user)
