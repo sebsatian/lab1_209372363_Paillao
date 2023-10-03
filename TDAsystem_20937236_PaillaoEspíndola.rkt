@@ -5,12 +5,21 @@
 ; Se importan las funciones del TDA user.
 (require "TDAuser_20937236_PaillaoEspindola.rkt")
 
+; Función auxiliar para verificar si un chatbot ya está en la lista de chatbots.
+(define (chatbot-exists? chatbotId chatbots)
+  (if (null? chatbots)
+      #f
+      (if (= chatbotId (get-chatbotId (car chatbots)))
+          #t
+          (chatbot-exists? chatbotId (cdr chatbots)))))
+
 ; Representación: Este TDA representa un sistema de chatbots y se ordena en una lista que contiene
 ; el nombre del sistema, el código inicial del chatbot, una lista de chatbots y una lista de usuarios.
 
 ; Constructor: Función para crear el sistema
 (define (system name InitialChatbotCodeLink . chatbots)
-  (append (list name InitialChatbotCodeLink '() ) chatbots)
+  (let ((unique-chatbots (filter (lambda (cb) (not (chatbot-exists? (get-chatbotId cb) chatbots))) chatbots)))
+    (append (list name InitialChatbotCodeLink '() ) unique-chatbots))
 )
 
 ; Pertenencia: Determina si un elemento pertenece a un sistema, retorna #t si pertenece y #f si no.
@@ -56,9 +65,9 @@
   )
 
   ; Añade un usuario al sistema
-(define (system-add-user sistema username password)
+(define (system-add-user sistema username)
   ; Crea un nuevo usuario
-  (define new-user (user username password))
+  (define new-user (user username))
   ; Comprueba si el usuario ya existe en la lista de usuarios en el sistema.
   (if (member username (map get-userName (get-systemUsers sistema)))
       sistema ; Si el usuario ya existe en la lista, devuelve el sistema original sin cambios.

@@ -35,8 +35,10 @@
 ; Modificadores:
 
 ; Añade una opción al flujo
-(define (flow-add-option flujo option)
+(define (flow-add-option flujo option); Recibe un flujo y una opción
+; Verifica que la opción no exista en la lista de opciones del flujo.
   (if (not (member (get-optionCode option) (map get-optionCode (get-flowOptions flujo))))
+; Si no existe, se añade a la lista de opciones del flujo.
       (append flujo (list option))
       flujo
   )

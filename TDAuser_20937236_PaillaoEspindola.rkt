@@ -7,7 +7,7 @@
 (define (user name password . messages)
   (append (list name password) messages)
 )
-
+  
 ; Pertenencia: Determina si un elemento pertenece a un usuario, retorna #t si pertenece y #f si no.
 (define (user? usuario)
   (and (list? usuario); Verifica que sea una lista
