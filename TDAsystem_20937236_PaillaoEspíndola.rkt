@@ -76,4 +76,26 @@
   )
 )
 
+; Funcion de login.
+
+; Funcion auxiliar selectora de usuario logeado actual, para verificar si ya hay un usuario logeado o no.
+(define (get-currentUser sistema)
+  (if (list? (cadddr sistema))
+      '()
+      (cadddr sistema)
+  )
+)
+
+; Funcion para logear un usuario, requiere el nombre del sistema y el username.
+(define (system-login sistema username)
+  ; Comprueba si el usuario ya existe en la lista de usuarios en el sistema.
+  (if (and (member username (map get-userName (get-systemUsers sistema))) (null? (get-currentUser sistema)))
+      ; Si el usuario existe y no hay otro usuario logeado, establece al usuario como el usuario actual del sistema.
+      (list (get-systemName sistema) (get-systemInitialcode sistema) (get-systemUsers sistema) (get-systemChatbot sistema) username)
+      ; Si el usuario no existe o ya hay otro usuario logeado, devuelve el sistema original sin cambios.
+      sistema
+  )
+)
+  
+
 (provide system system? get-systemName get-systemInitialcode get-systemUsers get-systemChatbot system-add-chatbot system-add-user)
