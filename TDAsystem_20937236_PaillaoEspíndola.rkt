@@ -46,7 +46,7 @@
   (caddr sistema)
 )
 ; Selector de lista de chatbots del sistema.
-(define (get-systemChatbot sistema)
+(define (get-systemChatbots sistema)
   (cdddr sistema)
 )
 
@@ -97,5 +97,15 @@
   )
 )
   
+; Función para deslogear al user con su sesión iniciada.
+(define (system-logout sistema)
+  ; Rescata todo lo del sistema exceptuando al usuario para devolver una lista sin él.
+  (define systemName (get-systemName sistema))
+  (define initialCode (get-systemInitialcode sistema))
+  (define chatBots (get-systemChatbots sistema))  ; Aquí se modificó 'chatBot' a 'chatBots' para reflejar que es una lista de chatbots.
+
+  ; Crea una nueva versión del sistema sin el usuario.
+  (list systemName initialCode '() chatBots)  
+)
 
 (provide (all-defined-out))
