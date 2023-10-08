@@ -1,8 +1,7 @@
 #lang racket
 
-; Se importan las funciones del TDA chatbot.
-(require "TDAchatbot_20937236_PaillaoEspindola.rkt")
-; Se importan las funciones del TDA user.
+; Se importa TDA flow para poder usarlo en la lista de flujos de un chatbot.
+(require "TDAflow_20937236_PaillaoEspindola.rkt")
 
 ; Función auxiliar para verificar si un flujo ya está en la lista de flujos de un chatbot.
 (define (flow-exists? flowId flows)
@@ -61,7 +60,7 @@
           (if (member (get-flowId flow) (map get-flowId (get-chatbotFlows chatbot))); Condicional para comparar Id´s de flujos
               (recursion chatbot (cdr flowAux)); Si el flujo ya existe, se llama a la funcion recursiva con el resto de flujos.
               ; Si el flujo no existe, se llama a la funcion recursiva con el resto de flujos y se añade el flujo al chatbot
-              (recursion (list (get-chatbotId chatbot) (get-chatbotName chatbot) (get-chatbotWelcomeMessage chatbot) (get-chatbotStartFlowId chatbot) (append (get-chatbotFlows chatbot) (list flow))) (cdr flowAux))
+              (recursion (list (get-chatbotId chatbot) (get-chatbotName chatbot) (get-welcomeMessage chatbot) (get-startFlowId chatbot) (append (get-chatbotFlows chatbot) (list flow))) (cdr flowAux))
           )
         )
     )

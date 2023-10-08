@@ -4,6 +4,8 @@
 (require "TDAchatbot_20937236_PaillaoEspindola.rkt")
 ; Se importan las funciones del TDA user.
 (require "TDAuser_20937236_PaillaoEspindola.rkt")
+; Se importan las funciones del TDA chatHistory.
+(require "TDAchatHistory_20937236_PaillaoEspindola.rkt")
 
 ; Función auxiliar para verificar si un chatbot ya está en la lista de chatbots.
 (define (chatbot-exists? chatbotId chatbots)
@@ -57,22 +59,30 @@
   ; Se crea la función para añadir un chatbot al sistema.
   (define (system-add-chatbot sistema chatbot)
    ; Comprueba si el ID del chatbot ya existe en la lista de IDs de chatbots en el sistema.
-  (if (member (get-chatbotId chatbot) (map get-chatbotId (get-systemChatbot sistema))
+  (if (member (get-chatbotId chatbot) (map get-chatbotId (get-systemChatbots sistema))
       )
       sistema; Si el ID del chatbot ya existe en la lista, devuelve el sistema original sin cambios.
       (append sistema (list chatbot)); Si el ID del chatbot no existe, añade el chatbot al sistema y devuelve el sistema modificado.
   )
   )
-
+; Función para encontrar un chatbot en la lista de chatbots del sistema por su ID.
+(define (find-chatbot sistema chatbotId)
+  (let ((chatbots (get-systemChatbots sistema)))
+    (cond ((null? chatbots) #f)
+          ((= chatbotId (get-chatbotId (car chatbots))) (car chatbots)) 
+          (else (find-chatbot (cdr chatbots) chatbotId))
+    )
+  )
+)
   ; Añade un usuario al sistema
 (define (system-add-user sistema username)
   ; Crea un nuevo usuario
   (define new-user (user username))
   ; Comprueba si el usuario ya existe en la lista de usuarios en el sistema.
-  (if (member username (map get-userName (get-systemUsers sistema)))
+  (if (member username (map get-username (get-systemUsers sistema)))
       sistema ; Si el usuario ya existe en la lista, devuelve el sistema original sin cambios.
        ; Si el usuario no existe, añade el usuario al sistema y devuelve el sistema modificado.
-      (list (get-systemName sistema) (get-systemInitialcode sistema) (append (get-systemUsers sistema) (list new-user)) (get-systemChatbot sistema))
+      (list (get-systemName sistema) (get-systemInitialcode sistema) (append (get-systemUsers sistema) (list new-user)) (get-systemChatbots sistema))
   )
 )
 
@@ -89,9 +99,9 @@
 ; Funcion para logear un usuario, requiere el nombre del sistema y el username.
 (define (system-login sistema username)
   ; Comprueba si el usuario ya existe en la lista de usuarios en el sistema.
-  (if (and (member username (map get-userName (get-systemUsers sistema))) (null? (get-currentUser sistema)))
+  (if (and (member username (map get-username (get-systemUsers sistema))) (null? (get-currentUser sistema)))
       ; Si el usuario existe y no hay otro usuario logeado, establece al usuario como el usuario actual del sistema.
-      (list (get-systemName sistema) (get-systemInitialcode sistema) (get-systemUsers sistema) (get-systemChatbot sistema) username)
+      (list (get-systemName sistema) (get-systemInitialcode sistema) (get-systemUsers sistema) (get-systemChatbots sistema) username)
       ; Si el usuario no existe o ya hay otro usuario logeado, devuelve el sistema original sin cambios.
       sistema
   )
@@ -107,5 +117,10 @@
   ; Crea una nueva versión del sistema sin el usuario.
   (list systemName initialCode '() chatBots)  
 )
+
+; Otras funciones
+
+; Función que permite interactuar con un chatbot.
+; Solo se puede conversar si se ha iniciado una sesión con un usuario previamente registrado.
 
 (provide (all-defined-out))
