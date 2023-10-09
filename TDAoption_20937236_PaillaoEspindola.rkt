@@ -29,11 +29,11 @@
   (cadr opcion)
 )
 ; Selector del código del chatbot.
-(define (get-optionChatbotCodeLink opcion)
+(define (get-CbCodeLink opcion)
   (caddr opcion)
 )
 ; Selector del código del flujo inicial.
-(define (get-optionInitialFlowCodeLink opcion)
+(define (get-flowCode opcion)
   (cadddr opcion)
 )
 ; Selector de la lista de palabras clave.
