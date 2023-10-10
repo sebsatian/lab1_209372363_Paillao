@@ -1,0 +1,46 @@
+Autoevaluación Lab 1 Paradigmas de Programación, Sebastián Paillao Espíndola, 20937236-3
+
+
+1. (0.5 pts) TDAs: Los TDAs son creados, implementados y asociados de manera correcta.
+1 BIEN
+	TDAs creados:
+	-option
+	-system
+	-flow
+	-chatHistory
+	-user
+	-chatbot
+
+2. (0.2 pts) TDA Option - constructor: Funcion creada y funcional el 100% de las veces
+1 BIEN
+
+3. (0.4 pts) TDA Flow - constructor: Funcion creada y funcional el 100% de las veces
+1 BIEN
+
+4. (0.2 pts) TDA Flow - flow-add-option: Funcion creada y funcional el 100% de las veces
+1 BIEN
+
+5. (0.4 pts) TDA chatbot - constructor: Funcion creada y funcional el 100% de las veces
+1 BIEN
+
+6. (0.2 pts) TDA chatbot - chatbot-add-flow: Funcion creada y funcional el 100% de las veces
+1 BIEN
+
+7. (0.4 pts) TDA system - constructor: Funcion creada y funcional el 100% de las veces
+1 BIEN
+
+8. (0.2 pts) TDA system - system-add-chatbot: Funcion creada y funcional el 100% de las veces
+1 BIEN
+
+9. (0.2 pts) TDA system - system-add-user: Funcion creada y funcional el 100% de las veces
+1 BIEN
+
+10. (0.2 pts) TDA system - system-login: Funcion creada y funcional el 100% de las veces
+1 BIEN
+
+11. (0.2 pts) TDA system - system-logout: Funcion creada y funcional el 100% de las veces
+1 BIEN
+
+12. (1 pto) system-talk-rec. Función que permite interactuar con un chatbot: 
+0,25, NO FUNCIONA BIEN.
+

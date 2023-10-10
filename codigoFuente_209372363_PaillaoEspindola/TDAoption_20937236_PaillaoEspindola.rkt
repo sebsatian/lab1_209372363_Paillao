@@ -40,5 +40,6 @@
 (define (get-optionKeywords opcion)
   (cddddr opcion)
 )
+; Modificadores:
 
 (provide (all-defined-out))
